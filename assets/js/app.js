@@ -51,7 +51,7 @@ d3.csv("./assets/data/data.csv").then(data => {
 
     // append  axes to the chart
     scatterGroup.append("g")
-        .attr("transform", `translate(0, $height})`)
+        .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
 
     scatterGroup.append("g")
@@ -64,7 +64,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     .join("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", "8")
+    .attr("r", "9")
     .attr("class", "stateCircle")
     // .attr("fill", "pink")
     // .attr("opacity", 0.8)

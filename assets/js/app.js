@@ -3,26 +3,26 @@
 
     //console.log(data);
 
-var svgWidth = 750;
-var svgHeight = 150;
+let svgWidth = 750;
+let svgHeight = 450;
 
-var margin = {
-    top: 2,
-    right: 2,
-    bottom: 2,
-    left: 2
+let margin = {
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 30
 };
 
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
+let width = svgWidth - margin.left - margin.right;
+let height = svgHeight - margin.top - margin.bottom;
 // create a svg wrapper, append an SVG group that will hold the chart, and shift the latter by left
 // and top margins
-var svg = d3.select("#scatter")
+let svg = d3.select("#scatter")
     .append("svg")
     .attr("width", svgWidth)
     .attr("heigth", svgHeight);
 
-var scatterGroup = svg. append("g")
+let scatterGroup = svg.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // import csv data
@@ -35,16 +35,18 @@ d3.csv("./assets/data/data.csv").then(data => {
     });
 
     // create scale functions
-    var xLinearScale = d3.scaleLinear()
+    let xLinearScale = d3.scaleLinear()
         .domain([5, d3.max(data, d => d.poverty)])
-        .range([0, width]);
+        .range([0, width])
+        .nice();
 
-    var yLinearScale = d3.scaleLinear()
+    let yLinearScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.healthcare)])
-        .range([height, 0]);
+        .range([height, 0])
+        .nice();
 
     // create circles
-    var circlesGroup = scatterGroup.selectAll("circle")
+    let circlesGroup = scatterGroup.selectAll("circle")
     .data(data)
     .join("circle")
     .attr("cx", d => xLinearScale(d.poverty))
@@ -52,13 +54,13 @@ d3.csv("./assets/data/data.csv").then(data => {
     .attr("r", "7")
     .attr("fill", "pink")
     .attr("opacity", 0.8)
-   // .attr() for state abbreviations inside, need to look up..
+    // .attr() for state abbreviations inside, need to look up..
     .attr("stroke", "black")
     .attr("stroke-width", 1);
-
+    
     // create axis functions 
-    var bottomAxis = d3.axisBottom(xLinearScale);
-    var leftAxis = d3.axisLeft(yLinearScale);
+    let bottomAxis = d3.axisBottom(xLinearScale);
+    let leftAxis = d3.axisLeft(yLinearScale);
 
     // append  axes to the chart
     scatterGroup.append("g")
@@ -68,14 +70,18 @@ d3.csv("./assets/data/data.csv").then(data => {
     scatterGroup.append("g")
         .call(leftAxis);
 
+    // create axes labels
+    scatterGroup.append("text")
+        .attr("transform", "rotate(-90")
+        .attr("y", 0 - margin.left + 5)
+        .attr("x", 0 -(height / 2))
+        .attr("dy", "1em")
+        .attr("class", "aText")
+        .text("Lacks Healthcare (%)");
 
-
-
-    
-
-
-
-
-
+    scatterGroup.append("text")
+        .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+        .attr("class", "aText")
+        .text("In Poverty (%)");
 
 }).catch(error => console.log(error));

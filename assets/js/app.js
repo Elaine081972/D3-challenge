@@ -32,6 +32,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     data.forEach(data => {
         data.poverty = +data.poverty;
         data.healthcare = +data.healthcare;
+        data.abbr = +data.abbr;
     });
 
     // create scale functions
@@ -71,12 +72,14 @@ d3.csv("./assets/data/data.csv").then(data => {
     // .attr() for state abbreviations inside, need to look up..
     // .attr("stroke", "black")
     // .attr("stroke-width", 1);
+    // .attr("class", "stateText")
+    // .attr("fill", d => text(d.abbr))
     
    
     // create axes labels
     scatterGroup.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left + 5)
+        .attr("y", 0 - margin.left + 20)
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
         .attr("class", "aText")

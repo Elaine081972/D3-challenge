@@ -32,7 +32,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     data.forEach(data => {
         data.poverty = +data.poverty;
         data.healthcare = +data.healthcare;
-        data.abbr = +data.abbr;
+        // data.abbr = +data.abbr;
     });
 
     // create scale functions
@@ -65,8 +65,8 @@ d3.csv("./assets/data/data.csv").then(data => {
     .join("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", "9")
-    .attr("class", "stateCircle")
+    .attr("r", "11")
+    .attr("class", "stateCircle");
     // .attr("fill", "pink")
     // .attr("opacity", 0.8)
     // .attr() for state abbreviations inside, need to look up..
@@ -74,8 +74,20 @@ d3.csv("./assets/data/data.csv").then(data => {
     // .attr("stroke-width", 1);
     // .attr("class", "stateText")
     // .attr("fill", d => text(d.abbr))
-    
-   
+
+    // create state abbr. text for inside circles
+
+    let circlesAbr = scatterGroup.selectAll(null)
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("x", d => xLinearScale(d.poverty))
+        .attr("y", d => yLinearScale(d.healthcare))
+        .text(function(d) {
+            return d.abbr;
+        })
+        .attr("class", "stateText");
+
     // create axes labels
     scatterGroup.append("text")
         .attr("transform", "rotate(-90)")

@@ -1,11 +1,30 @@
 // Load data from data.csv
 //d3.csv("./assets/data/data.csv").then(data => {
-
     //console.log(data);
 
-let svgWidth = 800;
-let svgHeight = 550;
+//
+d3.select(window).on("resize", handleResize);
 
+// when the browser loads, loadChart() is called
+loadChart();
+
+// if there is already an svg container on the page, remove it and reload the chart
+function handleResize() {
+    let svgArea = d3.select("svg");
+
+    if (!svgArea.empty()) {
+        svgArea.remove();
+        loadChart();
+    }
+}
+// loadchart () allow for the svg to be dependent on the window size and allows for more responsiveness depending on browser size/changes
+function loadChart() {
+
+// define svg dimensions
+let svgWidth = window.innerWidth - 400;
+let svgHeight = window.innerHeight - 400;
+
+// define margins 
 let margin = {
     top: 30,
     right: 40,
@@ -45,18 +64,17 @@ d3.csv("./assets/data/data.csv").then(data => {
         .range([height, 0])
         .nice();
 
-     // create axis functions 
+    // create axis functions 
     let bottomAxis = d3.axisBottom(xLinearScale);
     let leftAxis = d3.axisLeft(yLinearScale);
 
-    // append  axes to the chart
+    // append axes to the chart
     scatterGroup.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
 
     scatterGroup.append("g")
         .call(leftAxis);
-
 
     // create circles
     let circlesGroup = scatterGroup.selectAll("circle")
@@ -68,7 +86,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     .attr("class", "stateCircle");
 
     // create state abbreviation text
-    let circlesAbr = scatterGroup.selectAll()
+    let circlesAbbr = scatterGroup.selectAll()
         .data(data)
         .enter()
         .append("text")
@@ -77,7 +95,7 @@ d3.csv("./assets/data/data.csv").then(data => {
         .text(d => d.abbr)     
         .attr("class", "stateText");
 
-    // create axes labels
+    // create  y and x axes labels
     scatterGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left + 20)
@@ -92,3 +110,5 @@ d3.csv("./assets/data/data.csv").then(data => {
         .text("In Poverty (%)");
 
 }).catch(error => console.log(error));
+
+}

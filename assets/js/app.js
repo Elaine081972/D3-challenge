@@ -99,7 +99,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     let toolTip = d3.tip()
         .attr("class", "d3-tip")
         .offset([80, -60])
-        .html(d => `${d.state},<br>Poverty: ${d.poverty} %<br>Lack Healthcare: ${d.healthcare} %`);
+        .html(d => `${d.state}<br>Poverty: ${d.poverty} %<br>Lack Healthcare: ${d.healthcare} %`);
 
     // create tooltip in the chart
     scatterGroup.call(toolTip);

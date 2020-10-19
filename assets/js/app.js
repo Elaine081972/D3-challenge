@@ -95,6 +95,25 @@ d3.csv("./assets/data/data.csv").then(data => {
         .text(d => d.abbr)     
         .attr("class", "stateText");
 
+    // initialize tool tip
+    let toolTip = d3.tip()
+        .attr("class", "d3-tip")
+        .offset([80, -60])
+        .html(d => `${d.state},<br>Poverty: ${d.poverty} %<br>Lack Healthcare: ${d.healthcare} %`);
+
+    // create tooltip in the chart
+    scatterGroup.call(toolTip);
+
+    // create event listeners to display and hide the tooltip
+    circlesGroup.on("click", function(data) {
+        toolTip.show(data, this);
+    })
+
+    // on mouseout event
+     .on("mouseout", function(data){
+        toolTip.hide(data);
+     });
+
     // create  y and x axes labels
     scatterGroup.append("text")
         .attr("transform", "rotate(-90)")

@@ -2,13 +2,14 @@
 //d3.csv("./assets/data/data.csv").then(data => {
     //console.log(data);
 
-//
+// event listener for window resize
+// when browser window is resized, handleResize is called
 d3.select(window).on("resize", handleResize);
 
 // when the browser loads, loadChart() is called
 loadChart();
 
-// if there is already an svg container on the page, remove it and reload the chart
+// if there is already an svg container on the page, remove it and reload with resized version of chart
 function handleResize() {
     let svgArea = d3.select("svg");
 
@@ -108,7 +109,7 @@ d3.csv("./assets/data/data.csv").then(data => {
     circlesGroup.on("click", function(data) {
         toolTip.show(data, this);
     })
-    // on mouseout event
+    // on mouseout event 
      .on("mouseout", function(data){
         toolTip.hide(data);
      });

@@ -108,7 +108,6 @@ d3.csv("./assets/data/data.csv").then(data => {
     circlesGroup.on("click", function(data) {
         toolTip.show(data, this);
     })
-
     // on mouseout event
      .on("mouseout", function(data){
         toolTip.hide(data);
